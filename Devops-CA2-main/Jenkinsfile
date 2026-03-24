@@ -1,47 +1,42 @@
 pipeline {
     agent any
 
-    environment {
-        // Defines the Python virtual environment directory
-        VENV = 'venv'
-    }
-
     stages {
-        stage('Checkout') {
+
+        stage('Clone Code') {
             steps {
-                // Checkout code from source control
-                // For local execution if disconnected from Git, simply skip this or use local Git path
-                checkout scm
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/yuvichaudharybtech2023-spec/devops-finall'
+                    ]]
+                ])
             }
         }
-        
-        stage('Setup Environment') {
+
+        stage('Build') {
             steps {
-                // Create virtual environment and install dependencies
-                // On Windows Jenkins Node:
-                bat '''
-                python -m venv %VENV%
-                call %VENV%\\Scripts\\activate.bat
-                pip install -r requirements.txt
-                '''
+                bat 'echo Building Feedback Project...'
             }
         }
-        
-        stage('Run Selenium Tests') {
+
+        stage('List Files') {
             steps {
-                // Execute pytest script
-                bat '''
-                call %VENV%\\Scripts\\activate.bat
-                pytest test_form.py -v --junitxml=reports/results.xml
-                '''
+                bat 'dir'
             }
         }
-    }
-    
-    post {
-        always {
-            // Publish JUnit Test Results
-            junit 'reports/results.xml'
+
+        stage('Test') {
+            steps {
+                bat 'echo Running Tests...'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                bat 'echo Deploying Project...'
+            }
         }
     }
 }
