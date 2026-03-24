@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    environment {
+        // Defines the Python virtual environment directory
+        VENV = 'venv'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout code from source control
+                // For local execution if disconnected from Git, simply skip this or use local Git path
+                checkout scm
+            }
+        }
+        
+        stage('Setup Environment') {
+            steps {
+                // Create virtual environment and install dependencies
+                // On Windows Jenkins Node:
+                bat '''
+                python -m venv %VENV%
+                call %VENV%\\Scripts\\activate.bat
+                pip install -r requirements.txt
+                '''
+            }
+        }
+        
+        stage('Run Selenium Tests') {
+            steps {
+                // Execute pytest script
+                bat '''
+                call %VENV%\\Scripts\\activate.bat
+                pytest test_form.py -v --junitxml=reports/results.xml
+                '''
+            }
+        }
+    }
+    
+    post {
+        always {
+            // Publish JUnit Test Results
+            junit 'reports/results.xml'
+        }
+    }
+}

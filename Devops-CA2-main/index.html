@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Feedback Registration Form</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Internal CSS as required by Sub Task 2 -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Student Feedback Form</h2>
+        <form id="feedbackForm" onsubmit="return validateForm();">
+            <div class="form-group">
+                <label for="studentName">Student Name *</label>
+                <input type="text" id="studentName" name="studentName" placeholder="Enter full name">
+                <span class="error" id="nameError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email ID *</label>
+                <input type="text" id="email" name="email" placeholder="example@college.edu">
+                <span class="error" id="emailError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Mobile Number *</label>
+                <input type="text" id="mobile" name="mobile" placeholder="10-digit mobile number">
+                <span class="error" id="mobileError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="department">Department *</label>
+                <select id="department" name="department">
+                    <option value="">Select Department</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Electrical Engineering">Electrical Engineering</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    <option value="Civil Engineering">Civil Engineering</option>
+                </select>
+                <span class="error" id="departmentError"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Gender *</label>
+                <div class="radio-group">
+                    <input type="radio" id="genderMale" name="gender" value="Male">
+                    <label for="genderMale">Male</label>
+                    <input type="radio" id="genderFemale" name="gender" value="Female">
+                    <label for="genderFemale">Female</label>
+                    <input type="radio" id="genderOther" name="gender" value="Other">
+                    <label for="genderOther">Other</label>
+                </div>
+                <span class="error" id="genderError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="comments">Feedback Comments * (Min 10 words)</label>
+                <textarea id="comments" name="comments" rows="4" placeholder="Share your feedback here..."></textarea>
+                <span class="error" id="commentsError"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" id="submitBtn">Submit</button>
+                <button type="reset" id="resetBtn" onclick="clearErrors()">Reset</button>
+            </div>
+            <div id="successMessage" class="success-message" style="display: none;">Successfully submitted!</div>
+        </form>
+    </div>
+
+    <!-- External JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
